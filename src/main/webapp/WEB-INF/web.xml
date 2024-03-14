@@ -1,0 +1,38 @@
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+	version="5.0" metadata-complete="false">
+	<display-name>Archetype Created Web Application</display-name>
+	<servlet>
+		<servlet-name>UserController</servlet-name>
+		<servlet-class>com.example.controllers.UserController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserController</servlet-name>
+		<url-pattern>/users</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>PrefectureController</servlet-name>
+		<servlet-class>com.example.controllers.PrefectureController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PrefectureController</servlet-name>
+		<url-pattern>/users/new</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>UserDetailController</servlet-name>
+		<servlet-class>com.example.controllers.UserDetailController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserDetailController</servlet-name>
+		<url-pattern>/users/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>error</servlet-name>
+		<jsp-file>/error.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>error</servlet-name>
+		<url-pattern>/error</url-pattern>
+	</servlet-mapping>
+</web-app>
