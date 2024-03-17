@@ -32,8 +32,7 @@ public class UserDetailController extends HttpServlet {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String pathInfo = request.getPathInfo();
 
 		if (pathInfo == null || pathInfo.equals("/")) {
@@ -52,8 +51,10 @@ public class UserDetailController extends HttpServlet {
 				return;
 			}
 			request.setAttribute("userDetails", userDetails);
+
 			List<PrefectureEntity> prefectures = userService.getAllPrefectures();
 			request.setAttribute("prefectures", prefectures);
+
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/userDetail.jsp");
 			dispatcher.forward(request, response);
 		} catch (Exception e) {
@@ -64,8 +65,7 @@ public class UserDetailController extends HttpServlet {
 		}
 	}
 
-	protected void doPut(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException {
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		request.setCharacterEncoding("UTF-8");
 		StringBuilder sb = new StringBuilder();
@@ -93,9 +93,9 @@ public class UserDetailController extends HttpServlet {
 
 		if (!errors.isEmpty()) {
 			response.setContentType("application/json");
-	        response.setCharacterEncoding("UTF-8");
-	        response.getWriter().write(gson.toJson(errors));
-	        return;
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(gson.toJson(errors));
+			return;
 		}
 
 		try {
@@ -117,4 +117,38 @@ public class UserDetailController extends HttpServlet {
 		}
 	}
 
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String pathInfo = request.getPathInfo();
+        if (pathInfo != null) {
+            String[] pathParts = pathInfo.split("/");
+            try {
+                int userId = Integer.parseInt(pathParts[1]);
+                boolean deleted = userService.deleteUserById(userId);
+
+                if (deleted) {
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"success\" : true}");
+                } else {
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"error\" : \"削除に失敗しました\"}");
+                }
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\": \"不正なリクエストです\"}");
+            } catch (SQLException e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\": \"エラーが発生しました\"}");
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\": \"エラーが発生しました\"}");
+            }
+        } else {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"error\": \"不正なリクエストです\"}");
+        }
+    }
+	  
 }

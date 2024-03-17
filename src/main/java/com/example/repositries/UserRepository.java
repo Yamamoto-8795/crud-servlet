@@ -112,6 +112,16 @@ public class UserRepository {
 		int influence = ps.executeUpdate();
 		return influence > 0; 
 	}	
+	
+	public boolean deleteById(int id) throws SQLException {
+		String sql = "DELETE users WHERE id = ?";
+		DatabaseConnector connector = new DatabaseConnector();
+		Connection connection = connector.getConnection();
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setInt(1, id);
+		int rowsAffected = ps.executeUpdate();
+	    return rowsAffected > 0;
+	}
 }
 
 

@@ -59,4 +59,8 @@ public class UserService {
 	public boolean updateUser(UserEntity user) throws SQLException {
 		return userRepository.update(user);
 	}
+	
+	public boolean deleteUserById(int userId) throws SQLException {
+	    return userRepository.deleteById(userId);
+	}
 }
